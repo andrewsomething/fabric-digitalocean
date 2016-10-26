@@ -9,7 +9,7 @@ It was inspired by `fabric-aws`_
 
 Examples
 --------
-::
+.. code-block:: python
 
     from fabric.api import task, run
     from fabric_digitalocean.decorators import droplets
