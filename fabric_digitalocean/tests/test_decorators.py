@@ -11,8 +11,8 @@ class TestDecorators(unittest.TestCase):
     def setUp(self):
         super(TestDecorators, self).setUp()
 
+        os.environ["DO_TOKEN"] = "afaketokenthatwillworksincewemockthings"
         self.base_url = "https://api.digitalocean.com/v2/"
-        self.token = "afaketokenthatwillworksincewemockthings"
 
     def load_from_file(self, json_file):
         cwd = os.path.dirname(__file__)
