@@ -3,10 +3,7 @@ python:
   - "2.7"
 
 install:
-    - pip install fabric
-    - pip install nose
-    - pip install coverage
-    - pip install responses
+    - pip install -e .[test]
 
 script:
     - nosetests -v --with-coverage --cover-package=fabric_digitalocean
