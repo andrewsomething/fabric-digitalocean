@@ -2,6 +2,9 @@
 fabric-digitalocean
 ===================
 
+.. image:: https://travis-ci.org/andrewsomething/fabric-digitalocean.svg?branch=master
+    :target: https://travis-ci.org/andrewsomething/fabric-digitalocean
+
 fabric-digitalocean is a collection of tools aiming to make it easy to use
 `Fabric`_ and `DigitalOcean`_ together.
 
