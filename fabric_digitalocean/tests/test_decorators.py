@@ -36,7 +36,7 @@ class TestDecorators(unittest.TestCase):
 
         hosts = list(dummy.hosts)
 
-        self.assertListEqual(hosts, ["104.131.186.241"])
+        self.assertItemsEqual(hosts, ["104.131.186.241"])
 
     @responses.activate
     def test_droplets_with_ids(self):
@@ -62,4 +62,83 @@ class TestDecorators(unittest.TestCase):
 
         hosts = list(dummy.hosts)
 
-        self.assertListEqual(hosts, ["104.131.186.241", "104.131.187.242"])
+        self.assertItemsEqual(hosts, ["104.131.186.241", "104.131.187.242"])
+
+    @responses.activate
+    def test_droplets_with_region(self):
+        data = self.load_from_file('droplets.json')
+
+        url = self.base_url + 'droplets/'
+        responses.add(responses.GET, url,
+                      body=data,
+                      status=200,
+                      content_type='application/json')
+
+        @droplets(region='nyc3')
+        @task
+        def dummy():
+            pass
+
+        hosts = list(dummy.hosts)
+
+        self.assertItemsEqual(hosts, ["104.236.32.182", "104.236.32.412"])
+
+    @responses.activate
+    def test_droplets_with_tag(self):
+        data = self.load_from_file('droplets.json')
+
+        url = self.base_url + 'droplets/'
+        responses.add(responses.GET, url,
+                      body=data,
+                      status=200,
+                      content_type='application/json')
+
+        @droplets(tag='awesome')
+        @task
+        def dummy():
+            pass
+
+        hosts = list(dummy.hosts)
+
+        self.assertItemsEqual(hosts,
+                              ["104.236.32.182",
+                               "104.236.32.224",
+                               "104.236.32.412"])
+
+    @responses.activate
+    def test_droplets_with_tag_and_region(self):
+        data = self.load_from_file('droplets.json')
+
+        url = self.base_url + 'droplets/'
+        responses.add(responses.GET, url,
+                      body=data,
+                      status=200,
+                      content_type='application/json')
+
+        @droplets(tag='awesome', region='nyc3')
+        @task
+        def dummy():
+            pass
+
+        hosts = list(dummy.hosts)
+
+        self.assertItemsEqual(hosts, ["104.236.32.182", "104.236.32.412"])
+
+    @responses.activate
+    def test_droplets_with_region_and_tag(self):
+        data = self.load_from_file('droplets.json')
+
+        url = self.base_url + 'droplets/'
+        responses.add(responses.GET, url,
+                      body=data,
+                      status=200,
+                      content_type='application/json')
+
+        @droplets(region='nyc2', tag='awesome')
+        @task
+        def dummy():
+            pass
+
+        hosts = list(dummy.hosts)
+
+        self.assertItemsEqual(hosts, ["104.236.32.224"])
