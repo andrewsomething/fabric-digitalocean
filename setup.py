@@ -10,7 +10,7 @@ setup(
     long_description=long_description,
     url='https://github.com/andrewsomething/fabric-digitalocean',
     download_url='https://github.com/andrewsomething/fabric-digitalocean/releases',
-    license='MIT License (Expat)',
+    license='BSD-2-Clause',
 
     author='Andrew Starr-Bochicchio',
     author_email='a.starr.b@gmail.com',
