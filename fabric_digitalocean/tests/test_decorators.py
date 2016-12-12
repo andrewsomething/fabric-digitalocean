@@ -3,7 +3,7 @@ import unittest
 import responses
 from fabric.api import task
 
-from fabric_digitalocean.decorators import droplets
+from fabric_digitalocean.decorators import droplets, TokenError
 
 
 class TestDecorators(unittest.TestCase):
@@ -11,13 +11,24 @@ class TestDecorators(unittest.TestCase):
     def setUp(self):
         super(TestDecorators, self).setUp()
 
-        os.environ["DO_TOKEN"] = "afaketokenthatwillworksincewemockthings"
+        os.environ["FABRIC_DIGITALOCEAN_TOKEN"] = "afaketokenformockingthings"
         self.base_url = "https://api.digitalocean.com/v2/"
 
     def load_from_file(self, json_file):
         cwd = os.path.dirname(__file__)
         with open(os.path.join(cwd, 'fixtures/%s' % json_file), 'r') as f:
             return f.read()
+
+    def test_tokenerror(self):
+        os.environ["FABRIC_DIGITALOCEAN_TOKEN"] = ""
+
+        with self.assertRaises(TokenError) as context:
+            @droplets(ids=3164444)
+            def dummy():
+                pass
+
+        self.assertTrue('The environmental variable FABRIC_DIGITALOCEAN_TOKEN'
+                        in str(context.exception))
 
     @responses.activate
     def test_droplets_with_id(self):

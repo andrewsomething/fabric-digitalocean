@@ -4,6 +4,10 @@ import os
 from fabric.decorators import wraps, _wrap_as_new
 
 
+class TokenError(Exception):
+    pass
+
+
 def _list_annotating_decorator(attribute, *values):
     """
     From fabric.decorators._list_annotating_decorator
@@ -38,7 +42,12 @@ def droplet_generator(region=None, tag=None, ids=[]):
     :param id: A list of DigitalOcean Droplet IDs
     :type id: list
     """
-    token = os.getenv('DO_TOKEN')
+    token = os.getenv('FABRIC_DIGITALOCEAN_TOKEN')
+    if not token:
+        raise TokenError('The environmental variable FABRIC_DIGITALOCEAN_TOKEN'
+                         ' is empty. It must contain a valid DigitalOcean API'
+                         ' token.')
+
     client = digitalocean.Manager(token=token)
     hosts = []
 
