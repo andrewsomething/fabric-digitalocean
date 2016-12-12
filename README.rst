@@ -13,9 +13,10 @@ It was inspired by `fabric-aws`_
 Installation
 ------------
 
-```
-pip install fabric-digitalocean
-```
+.. code-block::
+
+    pip install fabric-digitalocean
+
 
 Usage
 -----
@@ -71,6 +72,7 @@ Testing
 To run the test suite, use:
 
 .. code-block::
+
     nosetests -v --with-coverage --cover-package=fabric_digitalocean
 
 
